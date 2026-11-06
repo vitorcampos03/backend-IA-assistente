@@ -38,6 +38,7 @@ export async function handleAsk(req, res) {
     const result = await aiService.askQuestion(question);
     return res.status(200).json(result);
   } catch (error) {
+    console.error('Erro detalhado da API:', error);
     return res.status(500).json({ error: 'Erro ao processar dúvida.' });
   }
 }
