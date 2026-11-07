@@ -1,28 +1,22 @@
-import ai from '../config/gemini.js';
-
-const MODEL_NAME = 'gemini-3.8-flash';
+import groq from '../config/groq.js';
 
 
-//  funcao que faz no maximo 1 retry 
-async function generateContentWithFastRetry(prompt) {
-  try {
-    return await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: prompt,
-    });
-  } catch (error) {
-    // se der erro 503/429, tenta apenas mais uma vez em 1.5 segundos
-    
-    if ((error?.status === 503 || error?.status === 429)) {
-      console.warn(`[Gemini API] Erro ${error.status}. Tentativa rápida de reconexão em 1.5s...`);
-      await new Promise((res) => setTimeout(res, 1500));
-      return await ai.models.generateContent({
-        model: MODEL_NAME,
-        contents: prompt,
-      });
-    }
-    throw error;
-  }
+const MODEL_NAME = 'openai/gpt-oss-120b'
+
+async function generateResponse(prompt) {
+  const completion = await groq.chat.completions.create({
+    messages: [
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+    model: MODEL_NAME,
+    max_completion_tokens: 1000,
+    reasoning_effort: "low",
+  });
+
+  return completion.choices[0]?.message?.content || '';
 }
 
 export async function askQuestion(question) {
@@ -31,11 +25,11 @@ Responda de forma clara, precisa e com exemplos práticos se necessário à segu
 
 Pergunta: ${question}`;
 
-  const response = await generateContentWithFastRetry(prompt);
+  const text = await generateResponse(prompt);
 
   return {
     status: 'success',
-    result: response.text,
+    result: text,
   };
 }
 
@@ -49,11 +43,11 @@ ${code}
 
 Dê uma resposta objetiva, organizada em tópicos.`;
 
-  const response = await generateContentWithFastRetry(prompt);
+  const text = await generateResponse(prompt);
 
   return {
     status: 'success',
-    result: response.text,
+    result: text,
   };
 }
 
@@ -66,10 +60,10 @@ ${code}
 \`\`\`
 `;
 
-  const response = await generateContentWithFastRetry(prompt);
+  const text = await generateResponse(prompt);
 
   return {
     status: 'success',
-    result: response.text,
+    result: text,
   };
 }
