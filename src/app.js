@@ -1,9 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
 import assistantRoutes from './routes/assistantRoutes.js';
+import historyRoutes from "./routes/historyRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use("/api/history", historyRoutes);
 
 app.use(express.json());
 
