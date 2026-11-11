@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.use('/api/assistant', assistantRoutes);
 
+app.use(express.static('public'));
+
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'API Assistente Técnico no ar.' });
 });

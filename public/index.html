@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assistente Técnico IA</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="side-head">
+      <p class="brand">Assistente Técnico IA</p>
+      <button class="btn-new" id="btnNew" type="button">Nova conversa</button>
+    </div>
+    <ul class="list" id="list"></ul>
+  </aside>
+
+  <main class="main">
+    <header class="banner"><h1>Pergunte, analise ou peça a explicação de um código!</h1><p></p></header>
+    <div class="thread" id="thread"><div class="thread-inner" id="messages"></div></div>
+
+    <div class="composer">
+      <div class="composer-inner">
+        <div class="row">
+          <div class="modes" role="radiogroup" aria-label="Tipo de pedido">
+            <label><input type="radio" name="mode" value="ask" checked><span>Perguntar</span></label>
+            <label><input type="radio" name="mode" value="analyze"><span>Analisar código</span></label>
+            <label><input type="radio" name="mode" value="explain"><span>Explicar código</span></label>
+          </div>
+          <select class="lang" id="lang" aria-label="Linguagem do código" hidden>
+            <option value="">Linguagem (opcional)</option>
+            <option>javascript</option><option>typescript</option><option>python</option>
+            <option>java</option><option>c#</option><option>php</option><option>sql</option>
+            <option>html/css</option><option>go</option><option>outra</option>
+          </select>
+        </div>
+        <textarea id="input" placeholder="Escreva sua dúvida sobre tecnologia…"></textarea>
+        <div class="foot">
+          <span class="hint">Ctrl + Enter para enviar</span>
+          <button class="btn-send" id="btnSend" type="button">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
